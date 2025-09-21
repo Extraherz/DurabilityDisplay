@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "DurabilityBarMixin"
+    "DurabilityBarMixin",
+    "HideDurabilityBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1
