@@ -1,14 +1,14 @@
 # Durability Display
 
 Ein einfacher Minecraft-Mod für **NeoForge**, der dir die Haltbarkeit deiner Items übersichtlich anzeigt.  
-Inspiriert von [Durability101](https://www.curseforge.com/minecraft/mc-mods/durability101).
+Inspiriert von [Durability101](https://modrinth.com/mod/durability101).
 
 ---
 
 ## ✨ Features
-- Zeigt die Haltbarkeit von Werkzeugen, Waffen und Rüstungen im HUD an.
+- Zeigt die Haltbarkeit von Werkzeugen, Waffen und Rüstungen im HUD und der Hotbar an.
 - Anpassbare Darstellung (Zahlen, Prozent, Balken).
-- Leichtgewichtiger Mod ohne zusätzliche Abhängigkeiten.
+- Client Side Mod, kann daher ohne Probleme überall verwendet werden.
 
 ---
 
@@ -22,7 +22,7 @@ Inspiriert von [Durability101](https://www.curseforge.com/minecraft/mc-mods/dura
 
 ## 🕹️ Nutzung
 - Die Haltbarkeit wird automatisch im HUD angezeigt, sobald du ein Item in der Hand hältst oder Rüstung trägst oder auch in der Hotbar
-- Einstellungen können über die Konfigurationsdatei `config/durabilitydisplay.toml` angepasst werden.
+- Einstellungen wie Farbe der einzelnen Prozente (100, 75, 50, 25%), so wie das Ein- und Ausschalten der Tooltip- oder Nummeranzeige können über die Konfigurationsdatei `config/durabilitydisplay.toml` angepasst werden.
 
 ---
 
@@ -30,6 +30,6 @@ Inspiriert von [Durability101](https://www.curseforge.com/minecraft/mc-mods/dura
 Falls du das Projekt selbst kompilieren oder erweitern möchtest:
 
 ```bash
-git clone https://github.com/Extraherz/Durability-Indicator.git
-cd Durability-Indicator
+git clone https://github.com/Extraherz/DurabilityDisplay.git
+cd DurabilityDisplay
 ./gradlew build
