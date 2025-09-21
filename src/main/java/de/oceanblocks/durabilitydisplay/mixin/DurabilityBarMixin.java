@@ -1,21 +1,15 @@
 package de.oceanblocks.durabilitydisplay.mixin;
 
 import de.oceanblocks.durabilitydisplay.config.DurabilityConfig;
+import de.oceanblocks.durabilitydisplay.utils.DurabilityUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.text.DecimalFormat;
 
 @Mixin(GuiGraphics.class)
 public class DurabilityBarMixin {
@@ -33,7 +27,7 @@ public class DurabilityBarMixin {
 
         // Check if item has durability and is damaged
         if (item.isDamageableItem() && item.isDamaged()) {
-            int unbreakingLevel = durabilityDisplay$getEnchantmentLevel(item, Enchantments.UNBREAKING);
+            int unbreakingLevel = DurabilityUtils.getEnchantmentLevel(item, Enchantments.UNBREAKING);
             int maxDamage = item.getMaxDamage();
             int currentDamage = item.getDamageValue();
             int durabilityLeft = maxDamage - currentDamage;
@@ -45,7 +39,7 @@ public class DurabilityBarMixin {
             int color = DurabilityConfig.getDurabilityColor(percentage);
 
             // Format the durability text with compact number formatting
-            String string = durabilityDisplay$format(((maxDamage - currentDamage) * (unbreakingLevel + 1)));
+            String string = DurabilityUtils.format(((maxDamage - currentDamage) * (unbreakingLevel + 1)));
 
             // Push matrix to render on top
             guiGraphics.pose().pushPose();
@@ -65,28 +59,6 @@ public class DurabilityBarMixin {
             // Pop matrix to restore original state
             guiGraphics.pose().popPose();
         }
-    }
-
-    @Unique
-    public String durabilityDisplay$format(float number) {
-        DecimalFormat decimalFormat = new DecimalFormat("0.#");
-
-        if (number >= 1000000000) return decimalFormat.format(number / 1000000000) + "b";
-        if (number >= 1000000) return decimalFormat.format(number / 1000000) + "m";
-        if (number >= 1000) return decimalFormat.format(number / 1000) + "k";
-
-        return Float.toString(number).replaceAll("\\.?0*$", "");
-    }
-
-    @Unique
-    private static int durabilityDisplay$getEnchantmentLevel(ItemStack item, ResourceKey<Enchantment> enchantment) {
-        return item.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY)
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().getKey().compareTo(enchantment) == 0)
-                .findAny()
-                .map(entry -> entry.getIntValue())
-                .orElse(0);
     }
 
 }
