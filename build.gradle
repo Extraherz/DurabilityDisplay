@@ -10,6 +10,10 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven {
+        name = 'Configured'
+        url = 'https://maven.fuzs.dev'
+    }
 }
 
 base {
