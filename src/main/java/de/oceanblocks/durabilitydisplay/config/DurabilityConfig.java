@@ -8,11 +8,16 @@ public class DurabilityConfig {
 
     public static final ModConfigSpec SPEC;
 
-    // GUI Display Settings
+    /**
+     * GUI Display Settings
+     */
     public static final ModConfigSpec.BooleanValue SHOW_DURABILITY_NUMBERS;
     public static final ModConfigSpec.BooleanValue SHOW_TOOLTIP_INFO;
+    public static final ModConfigSpec.BooleanValue HIDE_DURABILITY_BAR;
 
-    // Color Settings (as hex strings)
+    /**
+     * Color Settings (as hex strings)
+     */
     public static final ModConfigSpec.ConfigValue<String> COLOR_EXCELLENT; // >75%
     public static final ModConfigSpec.ConfigValue<String> COLOR_GOOD;      // 50-75%
     public static final ModConfigSpec.ConfigValue<String> COLOR_WARN;      // 25-50%
@@ -32,6 +37,12 @@ public class DurabilityConfig {
                         "Adds a line showing exact durability and percentage when hovering over items")
                 .define("showTooltipInfo", true);
 
+        HIDE_DURABILITY_BAR = BUILDER
+                .comment("Hide the vanilla durability bar completely",
+                        "When enabled, only the number will be shown (requires showDurabilityNumbers to be true)",
+                        "This gives a cleaner, more minimal look")
+                .define("hideDurabilityBar", false);
+
         BUILDER.pop();
 
         BUILDER.push("Color Settings");
@@ -43,7 +54,7 @@ public class DurabilityConfig {
                 "Use online color pickers to find hex values easily!");
 
         COLOR_EXCELLENT = BUILDER
-                .comment("Color for excellent durability (>75%)",
+                .comment("Color for excellent durability (greater than 75%)",
                         "Default: '0x55FF55' (Bright Green)")
                 .define("colorExcellent", "0x55FF55");
 
@@ -58,7 +69,7 @@ public class DurabilityConfig {
                 .define("colorWarn", "0xFFAA00");
 
         COLOR_CRITICAL = BUILDER
-                .comment("Color for critical durability (<25%)",
+                .comment("Color for critical durability (less than 25%)",
                         "Default: '0xFF5555' (Bright Red)")
                 .define("colorCritical", "0xFF5555");
 
@@ -68,8 +79,11 @@ public class DurabilityConfig {
     }
 
     /**
-     * Parse hex color string to integer
+     * Parse hex color string to integer.
      * Supports formats: "0xFF5555", "#FF5555", "FF5555"
+     * @param hexColor
+     * @param fallback
+     * @return Hexcolor as an integer
      */
     private static int parseHexColor(String hexColor, int fallback) {
         try {
@@ -99,6 +113,8 @@ public class DurabilityConfig {
 
     /**
      * Get color based on durability percentage
+     * @param percentage
+     * @return Given durability color as an Integer
      */
     public static int getDurabilityColor(double percentage) {
         if (percentage > 75) {
@@ -114,6 +130,8 @@ public class DurabilityConfig {
 
     /**
      * Get ChatFormatting for tooltips based on durability percentage
+     * @param percentage
+     * @return Color for the tooltip
      */
     public static ChatFormatting getTooltipColor(double percentage) {
         // For tooltips, we still use the predefined ChatFormatting colors
